@@ -1,0 +1,56 @@
+{
+  "name": "wmd-preview",
+  "displayName": "Workcard Preview",
+  "description": "Preview .w.md workcards, the Markdown format for reliable AI workflows, as cards, forms, go/nogo gates and records.",
+  "version": "0.1.0",
+  "publisher": "enterprise-r",
+  "author": {
+    "name": "Enterprise-R",
+    "email": "info@enterprise-r.com",
+    "url": "https://www.enterprise-r.com"
+  },
+  "license": "GPL-3.0-only",
+  "homepage": "https://www.enterprise-r.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/enterprise-r/project-vscode-wmd-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/enterprise-r/project-vscode-wmd-plugin/issues",
+    "email": "info@enterprise-r.com"
+  },
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#120320",
+    "theme": "dark"
+  },
+  "qna": false,
+  "pricing": "Free",
+  "keywords": [
+    "workcard",
+    "w.md",
+    "markdown",
+    "preview",
+    "ai",
+    "workflow",
+    "agents",
+    "enterprise",
+    "forms",
+    "records"
+  ],
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Visualization"
+  ],
+  "contributes": {
+    "markdown.previewStyles": [
+      "./media/ui.css",
+      "./media/style.css"
+    ],
+    "markdown.previewScripts": [
+      "./media/wmd.js"
+    ]
+  }
+}
