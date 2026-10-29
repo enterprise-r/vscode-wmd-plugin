@@ -1,0 +1,41 @@
+/* W bubble menu to pick the media target, themed with the IDE colors. */
+
+/* Target selector: a W bubble that opens a small menu */
+#wmd-media {
+  position: fixed; top: .75em; right: .75em; z-index: 1000;
+  font-family: var(--vscode-font-family, sans-serif);
+  font-size: var(--vscode-font-size, 13px);
+}
+#wmd-media > button {
+  width: 2em; height: 2em; border-radius: 50%;
+  border: 1px solid var(--vscode-contrastBorder, transparent);
+  background: var(--vscode-button-background, #0e639c);
+  color: var(--vscode-button-foreground, #fff);
+  font: bold 1em/1 var(--vscode-font-family, sans-serif);
+  cursor: pointer; opacity: .3;
+  box-shadow: 0 2px 6px var(--vscode-widget-shadow, rgba(0,0,0,.35));
+  transition: opacity .15s, transform .15s;
+}
+#wmd-media:hover > button, #wmd-media.open > button, #wmd-media > button:focus-visible {
+  opacity: 1; transform: scale(1.08);
+}
+#wmd-media > button:focus-visible { outline: 1px solid var(--vscode-focusBorder, #007fd4); outline-offset: 2px; }
+#wmd-media > ul {
+  display: none; position: absolute; top: 2.5em; right: 0; min-width: 8em;
+  margin: 0; padding: .25em; list-style: none; border-radius: 6px;
+  background: var(--vscode-menu-background, var(--vscode-editorWidget-background, #252526));
+  color: var(--vscode-menu-foreground, var(--vscode-foreground, #ccc));
+  border: 1px solid var(--vscode-menu-border, var(--vscode-widget-border, transparent));
+  box-shadow: 0 4px 12px var(--vscode-widget-shadow, rgba(0,0,0,.35));
+}
+#wmd-media.open > ul { display: block; }
+#wmd-media li {
+  position: relative; margin: 0; padding: .3em .8em .3em 1.8em;
+  border-radius: 4px; cursor: pointer; text-transform: capitalize; white-space: nowrap;
+}
+#wmd-media li:hover {
+  background: var(--vscode-menu-selectionBackground, var(--vscode-list-hoverBackground, #094771));
+  color: var(--vscode-menu-selectionForeground, inherit);
+}
+#wmd-media li[aria-checked="true"]::before { content: "\2713"; position: absolute; left: .6em; }
+@media print { #wmd-media { display: none; } }
