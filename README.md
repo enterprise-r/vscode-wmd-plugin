@@ -77,9 +77,9 @@ Every PR and push to main also builds the `.vsix` as a downloadable CI artifact.
 One-time setup:
 
 1. Create the publisher `enterprise-r` at <https://marketplace.visualstudio.com/manage>.
-2. Create an Azure DevOps personal access token with only the **Marketplace (Manage)** scope.
-3. In the repo settings, create the environment `marketplace` with required reviewers and add the token as its
-   `VSCE_PAT` secret. Without it, the publish step is skipped.
+2. On the publisher's **Trusted Publishing** page, create a policy with owner `enterprise-r`, repository
+   `vscode-wmd-plugin`, workflow `release.yml` and environment `marketplace`.
+3. In the repo settings, create the environment `marketplace` with required reviewers. No token or secret is needed.
 
 Report bugs on [GitHub Issues](https://github.com/enterprise-r/vscode-wmd-plugin/issues).
 
