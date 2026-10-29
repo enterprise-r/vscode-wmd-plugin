@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="images/icon.png" width="96" alt="Workcard Preview icon">
+  <img src="images/icon.png" width="96" alt="Workcard icon">
 </p>
 
-<h1 align="center">Workcard Preview</h1>
+<h1 align="center">Workcard</h1>
 
 <p align="center">
   See your <code>.w.md</code> workcards the way the workflow runs them: cards, forms, gates and records.
@@ -48,7 +48,7 @@ VS Code 1.90 or newer.
 
 ```sh
 npx @vscode/vsce package
-code --install-extension wmd-preview-0.1.0.vsix
+code --install-extension wmd-0.2.0.vsix
 ```
 
 ## Develop
