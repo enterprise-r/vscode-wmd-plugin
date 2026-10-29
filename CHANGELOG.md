@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 - 2026-10-29
+
+Renamed to Workcard, with the new ID `enterprise-r.wmd`. Uninstall the old Workcard Preview. Each record on its own line in full and screen views.
+
 ## 0.1.3 - 2026-10-29
 
 VS Code style tooltip on the W icon. Shows `<schema>` in the card preview.
