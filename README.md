@@ -36,7 +36,7 @@ Markdown preview for them. Other Markdown files are left untouched.
 
 1. Open a `.w.md` file.
 2. Run **Markdown: Open Preview to the Side** (`Ctrl+K V`, or `Cmd+K V` on macOS).
-3. Hover the **W** bubble in the top-right corner of the preview and pick a target.
+3. Hover the **W** icon in the top-right corner of the preview and pick a target.
 
 The target is kept while the preview stays open.
 
