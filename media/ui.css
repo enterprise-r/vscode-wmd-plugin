@@ -1,6 +1,6 @@
-/* Logo button menu to pick the media target, themed with the IDE colors. */
+/* W icon menu to pick the media target, themed with the IDE colors. */
 
-/* Target selector: the logo button opens a small menu */
+/* Target selector: the W icon opens a small menu */
 #wmd-media {
   position: fixed; top: .75em; right: .75em; z-index: 1000;
   font-family: var(--vscode-font-family, sans-serif);
