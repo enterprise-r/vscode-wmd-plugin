@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3 - 2026-10-29
+
+VS Code style tooltip on the W icon. Shows `<schema>` in the card preview.
+
 ## 0.1.2 - 2026-10-29
 
 Gray W icon until hovered. Smaller package.
