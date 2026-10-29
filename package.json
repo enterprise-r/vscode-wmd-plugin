@@ -2,7 +2,7 @@
   "name": "wmd",
   "displayName": "Workcard",
   "description": "View .w.md workcards, the Markdown format for reliable AI workflows, as cards, forms, go/nogo gates and records.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "enterprise-r",
   "author": {
     "name": "Enterprise-R",
