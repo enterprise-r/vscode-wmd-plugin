@@ -13,10 +13,10 @@
   "homepage": "https://www.enterprise-r.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/enterprise-r/project-vscode-wmd-plugin.git"
+    "url": "https://github.com/enterprise-r/vscode-wmd-plugin.git"
   },
   "bugs": {
-    "url": "https://github.com/enterprise-r/project-vscode-wmd-plugin/issues",
+    "url": "https://github.com/enterprise-r/vscode-wmd-plugin/issues",
     "email": "info@enterprise-r.com"
   },
   "icon": "images/icon.png",
