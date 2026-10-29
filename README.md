@@ -54,9 +54,9 @@ code --install-extension wmd-preview-0.1.0.vsix
 ## Develop
 
 1. Clone this repo and open its folder in VS Code (`code .`). Don't clone it under `~/.vscode/extensions`, VS Code won't load it from there.
-2. Press `F5` (**Run Extension**). A second VS Code window opens with the extension loaded.
+2. Press `F5` (**Run Extension**). It starts the minifier in watch mode and opens a second VS Code window with the extension loaded.
 3. In that window, open a `.w.md` file and run **Markdown: Open Preview to the Side**.
-4. After editing `media/`, run **Developer: Reload Window** in the second window.
+4. After editing `media/`, run **Developer: Reload Window** in the second window. Requires Node.js.
 
 ## Release
 

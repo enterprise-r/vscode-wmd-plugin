@@ -4,3 +4,4 @@ examples/
 images/*
 !images/icon.png
 !images/icon.svg
+dist/
