@@ -85,6 +85,46 @@
     });
   };
 
+  // A JSON Schema in compact form: {Azzurro: string*}, a star marks a required key.
+  const compact = (s) => {
+    if (!s || typeof s !== 'object') return 'any';
+    for (const k of ['oneOf', 'anyOf']) if (Array.isArray(s[k])) return s[k].map(compact).join(' | ');
+    if (Array.isArray(s.enum)) return s.enum.map((v) => JSON.stringify(v)).join(' | ');
+    if (s.properties) {
+      const req = new Set(s.required || []);
+      return `{${Object.entries(s.properties).map(([k, v]) => `${k}: ${compact(v)}${req.has(k) ? '*' : ''}`).join(', ')}}`;
+    }
+    if (s.type === 'array') return `[${compact(s.items)}]`;
+    return [].concat(s.type || 'any').join('|');
+  };
+
+  // Mirror each <schema> as a compact line right after it.
+  const schemas = () => {
+    document.querySelectorAll('schema').forEach((schema) => {
+      const at = schema;
+      let mirror = schema.wmdMirror;
+      if (!mirror?.isConnected) {
+        mirror = document.createElement('div');
+        mirror.className = 'wmd-schema';
+        schema.wmdMirror = mirror;
+      }
+      if (at.nextElementSibling !== mirror) at.after(mirror);
+      let text, tip;
+      try {
+        const json = JSON.parse(schema.textContent);
+        text = compact(json);
+        tip = JSON.stringify(json, null, 2);
+        mirror.classList.remove('wmd-bad');
+      } catch (e) {
+        text = 'invalid JSON schema';
+        tip = e.message;
+        mirror.classList.add('wmd-bad');
+      }
+      setText(mirror, text);
+      if (mirror.title !== tip) mirror.title = tip;
+    });
+  };
+
   const apply = () => {
     const wmd = isWmd();
     document.body.classList.toggle('wmd', wmd);
@@ -95,6 +135,7 @@
       setTarget(TARGETS.includes(saved) ? saved : 'full');
     }
     records();
+    schemas();
   };
 
   let pending = false;
