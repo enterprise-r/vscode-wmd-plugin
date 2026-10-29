@@ -1,0 +1,117 @@
+/* Applies only when wmd.js marks the preview of a .w.md file. */
+body.wmd {
+  /* Defaults for every target */
+  & :is(in, out) { display: none; }
+  & record::before { content: attr(name) ": "; font-weight: bold; }
+  & .wmd-record { display: none; white-space: pre; font-weight: bold; }
+  & .wmd-record > span { font-weight: normal; }
+  & .wmd-record > .wmd-key { font-weight: bold; }
+  & .wmd-record > .wmd-name { display: none; }
+
+  /* Boxes: full, screen and flow */
+  &:is(.wmd-full, .wmd-screen, .wmd-flow) {
+    & :is(card, form, gonogo, go, nogo) { display: block; margin: .5em 0; padding: .5em 1em; }
+    & card { border: 2px dotted red; }
+    & card[agent] { border-color: var(--wmd-agent-color, purple); }
+    & form { border: 3px solid gray; }
+    & go { border: 3px dashed green; }
+    & nogo { border: 3px dashed red; }
+    & gonogo { border-left: 6px dotted green; border-right: 6px dotted red; }
+  }
+
+  /* Bubbles and names: full and flow */
+  &:is(.wmd-full, .wmd-flow) {
+    /* in/out dotted, gonogo check dashed */
+    & :is(in, out), & gonogo[check]::after {
+      display: block; margin: .5em 0; padding: .4em 1em; text-align: center;
+      font-family: var(--vscode-editor-font-family, monospace);
+      border: 1px dotted var(--vscode-editorWidget-border, var(--vscode-foreground, currentColor));
+      border-radius: 1em;
+    }
+    & :is(in, out) { width: fit-content; margin-left: auto; margin-right: auto; }
+    /* The check bubble sits right before the last go or nogo, in either order */
+    & gonogo[check] { display: flex; flex-direction: column; }
+    & gonogo[check]::after { content: attr(check); order: 1; border-style: dashed; align-self: center; }
+    & gonogo[check] > :is(go, nogo):not(:has(~ go, ~ nogo)) { order: 2; }
+
+    /* Form names and card agent/skill top right */
+    & :is(form[name], card[agent], card[skill]) { position: relative; }
+    & :is(card[agent], card[skill])::after, & form[name]::after, & .wmd-record > .wmd-name {
+      font-size: .75em; font-weight: normal; opacity: .6;
+      font-family: var(--vscode-editor-font-family, monospace);
+    }
+    & :is(form[name], card[agent], card[skill])::after { position: absolute; top: .3em; right: .6em; }
+    & form[name]::after { content: attr(name); }
+    & card[agent][skill]::after { content: attr(agent) "/" attr(skill); }
+    & card[agent]:not([skill])::after { content: attr(agent); }
+    & card[skill]:not([agent])::after { content: attr(skill); }
+
+    /* Input names and record select as small bubbles; the input label is the tooltip */
+    @media screen {
+      & record[select]::after {
+        content: attr(select); font-size: .75em; font-weight: normal; opacity: .6;
+        font-family: var(--vscode-editor-font-family, monospace);
+      }
+      & record[select]::after, & .wmd-record > .wmd-name:not(:empty) {
+        display: inline; padding: 0 .5ex; margin: 0 1ex; white-space: normal;
+        border: 1px solid var(--vscode-editorWidget-border, var(--vscode-foreground, currentColor));
+        border-radius: 1em;
+      }
+    }
+  }
+
+  /* Full: keep the live input, show only the name bubble from the mirror */
+  &.wmd-full {
+    @media screen {
+      & .wmd-record:has(> .wmd-name:not(:empty)) { display: inline; }
+      & .wmd-record > :not(.wmd-name) { display: none; }
+    }
+  }
+
+  /* Screen: no nested quotes, no front matter */
+  &.wmd-screen {
+    & blockquote blockquote { display: none; }
+    & :is(.frontmatter, .frontmatter-error) { display: none; }
+  }
+
+  /* Flow: only the enabled elements; quotes, front matter and freestanding text go */
+  &.wmd-flow {
+    & :is(blockquote, .frontmatter, .frontmatter-error) { display: none; }
+    & .markdown-body {
+      & :not(card, form, gonogo, go, nogo, in, out, record, .wmd-record, input[record],
+             in *, out *, record *, .wmd-record *,
+             :has(card, form, gonogo, go, nogo, in, out, record, .wmd-record, input[record])) { display: none; }
+      & p:has(card, form, gonogo, go, nogo, in, out, record, .wmd-record, input[record]) { font-size: 0; }
+      & p:has(card, form, gonogo, go, nogo, in, out, record, .wmd-record, input[record]) > * { font-size: var(--markdown-font-size, 14px); }
+      & p > :is(record, .wmd-record) { display: block; }
+    }
+  }
+
+  /* Flow and receipt: inputs with a record attribute show as "Record: value" text, labels hidden */
+  &:is(.wmd-flow, .wmd-receipt) {
+    & input[record]:has(+ .wmd-record) { display: none; }
+    & .wmd-record { display: inline; }
+    & label:has(~ input[record]) { display: none; }
+  }
+
+  /* Receipt: only records, one per line */
+  &.wmd-receipt {
+    & :is(nogo, blockquote),
+    & :not(#wmd-media, #wmd-media *, record, record *, .wmd-record, .wmd-record *, input[record]:not(:has(+ .wmd-record)), :has(record, .wmd-record, input[record])) { display: none; }
+    & :has(record, .wmd-record, input[record]) { font-size: 0; border: 0; padding: 0; }
+    & :is(record, .wmd-record) { display: block; font-size: var(--markdown-font-size, 14px); }
+  }
+
+  /* Real printing always uses the receipt rules, whichever target is picked */
+  @media print {
+    &:is(.wmd-full, .wmd-screen, .wmd-flow, .wmd-receipt) {
+      & :is(nogo, blockquote),
+      & :not(record, record *, .wmd-record, .wmd-record *, input[record]:not(:has(+ .wmd-record)), :has(record, .wmd-record, input[record])) { display: none; }
+      & :has(record, .wmd-record, input[record]) { font-size: 0; border: 0; padding: 0; }
+      & :is(record, .wmd-record) { display: block; font-size: var(--markdown-font-size, 14px); }
+    }
+    & input[record]:has(+ .wmd-record) { display: none; }
+    & .wmd-record { display: inline; }
+    & label:has(~ input[record]) { display: none; }
+  }
+}
