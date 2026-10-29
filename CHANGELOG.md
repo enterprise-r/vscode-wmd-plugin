@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 - 2026-10-29
+
+Schema hidden in screen. Its compact line shows only in flow.
+
 ## 0.2.0 - 2026-10-29
 
 Renamed to Workcard, with the new ID `enterprise-r.wmd`. Uninstall the old Workcard Preview. Each record on its own line in full and screen views.
