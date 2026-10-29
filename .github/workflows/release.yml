@@ -59,19 +59,13 @@ jobs:
     environment: marketplace
     permissions:
       contents: read
+      id-token: write
     steps:
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - uses: actions/download-artifact@v4
         with:
           name: vsix
-      - name: Publish to the VS Code Marketplace
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-        run: |
-          if [ -z "$VSCE_PAT" ]; then
-            echo "::warning::VSCE_PAT is not set in the marketplace environment, skipping publish."
-            exit 0
-          fi
-          npx --yes @vscode/vsce@3 publish --packagePath *.vsix
+      - name: Publish to the VS Code Marketplace (Trusted Publishing)
+        run: npx --yes @vscode/vsce@3 publish --oidc --packagePath *.vsix
