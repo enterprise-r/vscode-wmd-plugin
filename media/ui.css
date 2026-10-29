@@ -27,6 +27,19 @@
   box-shadow: 0 4px 12px var(--vscode-widget-shadow, rgba(0,0,0,.35));
 }
 #wmd-media.open > ul { display: block; }
+/* Tooltip styled like the IDE hover widget, shown after the usual hover delay */
+#wmd-media::after {
+  content: attr(data-tip); position: absolute; top: 2.6em; right: 0;
+  padding: .2em .5em; border-radius: 3px; white-space: nowrap; pointer-events: none;
+  background: var(--vscode-editorHoverWidget-background, #252526);
+  color: var(--vscode-editorHoverWidget-foreground, var(--vscode-foreground, #ccc));
+  border: 1px solid var(--vscode-editorHoverWidget-border, #454545);
+  box-shadow: 0 2px 8px var(--vscode-widget-shadow, rgba(0,0,0,.36));
+  opacity: 0; visibility: hidden; transition: opacity .1s, visibility 0s .1s;
+}
+#wmd-media:not(.open):has(> button:hover)::after {
+  opacity: 1; visibility: visible; transition: opacity .1s .5s, visibility 0s .5s;
+}
 #wmd-media li {
   position: relative; margin: 0; padding: .3em .8em .3em 1.8em;
   border-radius: 4px; cursor: pointer; text-transform: capitalize; white-space: nowrap;
