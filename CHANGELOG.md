@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2 - 2026-10-29
+
+New document target, a plain doc. New disabled target, the plain Markdown preview.
+
 ## 0.2.1 - 2026-10-29
 
 Schema hidden in screen. Its compact line shows only in flow.
