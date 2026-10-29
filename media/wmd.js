@@ -3,7 +3,7 @@
 // is re-applied whenever the DOM changes or a new document is shown.
 (() => {
   const ID = 'wmd-media';
-  const TARGETS = ['full', 'screen', 'flow', 'receipt'];
+  const TARGETS = ['full', 'screen', 'document', 'flow', 'receipt'];
 
   let source = (() => {
     const meta = document.getElementById('vscode-markdown-preview-data');
