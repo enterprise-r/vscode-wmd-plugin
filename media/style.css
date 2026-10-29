@@ -9,7 +9,7 @@ body.wmd {
   & .wmd-record > span { font-weight: normal; }
   & .wmd-record > .wmd-key { font-weight: bold; }
   & .wmd-record > .wmd-name { display: none; }
-  /* A <schema> is JSON, shown as written; its compact mirror is a bubble */
+  /* A <schema> is JSON, shown as written; its compact mirror shows only in flow */
   & schema {
     display: block; white-space: pre; margin: .5em 0; padding: .4em 1em; overflow-x: auto;
     font-family: var(--vscode-editor-font-family, monospace);
@@ -42,13 +42,6 @@ body.wmd {
     & in { margin-top: -.3em; }
     & out { margin-bottom: -.3em; border-radius: 0; } /* square box */
     & gonogo[check]::after { margin-top: -.3em; margin-bottom: -.3em; }
-    /* schema: a square box sized to its text */
-    & .wmd-schema {
-      display: block; width: fit-content; margin: .5em auto; padding: .4em 1em; text-align: center;
-      font-family: var(--vscode-editor-font-family, monospace);
-      border: 1px solid var(--vscode-editorWidget-border, var(--vscode-foreground, currentColor));
-    }
-    & .wmd-schema.wmd-bad { color: red; }
     /* The check bubble sits right before the last go or nogo, in either order */
     & gonogo[check] { display: flex; flex-direction: column; }
     & gonogo[check]::after { content: attr(check); order: 1; border-style: dashed; align-self: center; }
@@ -88,15 +81,22 @@ body.wmd {
     }
   }
 
-  /* Screen: no nested quotes, no front matter */
+  /* Screen: no nested quotes, no front matter, no schema */
   &.wmd-screen {
-    & blockquote blockquote { display: none; }
+    & :is(blockquote blockquote, schema) { display: none; }
     & :is(.frontmatter, .frontmatter-error) { display: none; }
   }
 
   /* Flow: only the enabled elements; quotes, front matter and freestanding text go */
   &.wmd-flow {
     & :is(blockquote, .frontmatter, .frontmatter-error) { display: none; }
+    /* schema compact: a square box sized to its text */
+    & .wmd-schema {
+      display: block; width: fit-content; margin: .5em auto; padding: .4em 1em; text-align: center;
+      font-family: var(--vscode-editor-font-family, monospace);
+      border: 1px solid var(--vscode-editorWidget-border, var(--vscode-foreground, currentColor));
+    }
+    & .wmd-schema.wmd-bad { color: red; }
     & .markdown-body {
       & :not(card, form, gonogo, go, nogo, in, out, record, .wmd-record, input[record], .wmd-schema,
              in *, out *, record *, .wmd-record *,
