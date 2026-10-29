@@ -25,12 +25,13 @@ Markdown preview for them. Other Markdown files are left untouched.
 
 ## Targets
 
-| Target    | Shows                                                       |
-| --------- | ----------------------------------------------------------- |
-| `full`    | Everything, with boxes, bubbles and labels                  |
-| `screen`  | Like full, without nested quotes and front matter           |
-| `flow`    | Only cards, forms, gates, bubbles and records               |
-| `receipt` | Only records, one per line. Printing always uses this target |
+| Target     | Shows                                                        |
+| ---------- | ------------------------------------------------------------ |
+| `full`     | Everything, with boxes, bubbles and labels                   |
+| `screen`   | Like full, without nested quotes and front matter            |
+| `document` | A plain doc: like screen, without nogo, boxes or colors      |
+| `flow`     | Only cards, forms, gates, bubbles and records                |
+| `receipt`  | Only records, one per line. Printing always uses this target |
 
 ## Usage
 
