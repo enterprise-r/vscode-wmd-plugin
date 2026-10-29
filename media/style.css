@@ -87,6 +87,15 @@ body.wmd {
     & :is(.frontmatter, .frontmatter-error) { display: none; }
   }
 
+  /* Document: a plain doc, like screen but without nogo, boxes or colors, one level of quotes */
+  &.wmd-document {
+    & :is(nogo, blockquote blockquote, schema, .frontmatter, .frontmatter-error) { display: none; }
+    & :is(card, form, gonogo, go) { display: block; margin: 0; padding: 0; border: 0; }
+    & .markdown-body :is(a, code, code *, pre, blockquote) { color: inherit; }
+    & .markdown-body :is(pre, code, blockquote) { background: none; }
+    & .markdown-body blockquote { border-left-color: currentColor; opacity: .8; }
+  }
+
   /* Flow: only the enabled elements; quotes, front matter and freestanding text go */
   &.wmd-flow {
     & :is(blockquote, .frontmatter, .frontmatter-error) { display: none; }
@@ -124,7 +133,7 @@ body.wmd {
 
   /* Real printing always uses the receipt rules, whichever target is picked */
   @media print {
-    &:is(.wmd-full, .wmd-screen, .wmd-flow, .wmd-receipt) {
+    &:is(.wmd-full, .wmd-screen, .wmd-document, .wmd-flow, .wmd-receipt) {
       & :is(nogo, blockquote),
       & :not(record, record *, .wmd-record, .wmd-record *, input[record]:not(:has(+ .wmd-record)), :has(record, .wmd-record, input[record])) { display: none; }
       & :has(record, .wmd-record, input[record]) { font-size: 0; border: 0; padding: 0; }
