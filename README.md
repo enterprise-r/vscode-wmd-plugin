@@ -58,6 +58,29 @@ code --install-extension wmd-preview-0.1.0.vsix
 3. In that window, open a `.w.md` file and run **Markdown: Open Preview to the Side**.
 4. After editing `media/`, run **Developer: Reload Window** in the second window.
 
+## Release
+
+1. On a branch, bump `version` in `package.json`, add a `CHANGELOG.md` section for it, and merge the PR.
+2. Tag main and push the tag:
+
+   ```sh
+   git checkout main && git pull
+   git tag v0.1.1 && git push origin v0.1.1
+   ```
+
+3. The **Release** workflow checks that the tag matches `package.json`, builds the `.vsix`, attaches it to a
+   GitHub Release with the changelog section as notes, and publishes to the Marketplace once a reviewer approves
+   the `marketplace` environment.
+
+Every PR and push to main also builds the `.vsix` as a downloadable CI artifact.
+
+One-time setup:
+
+1. Create the publisher `enterprise-r` at <https://marketplace.visualstudio.com/manage>.
+2. Create an Azure DevOps personal access token with only the **Marketplace (Manage)** scope.
+3. In the repo settings, create the environment `marketplace` with required reviewers and add the token as its
+   `VSCE_PAT` secret. Without it, the publish step is skipped.
+
 Report bugs on [GitHub Issues](https://github.com/enterprise-r/project-vscode-wmd-plugin/issues).
 
 ## License
