@@ -81,7 +81,7 @@ One-time setup:
 3. In the repo settings, create the environment `marketplace` with required reviewers and add the token as its
    `VSCE_PAT` secret. Without it, the publish step is skipped.
 
-Report bugs on [GitHub Issues](https://github.com/enterprise-r/project-vscode-wmd-plugin/issues).
+Report bugs on [GitHub Issues](https://github.com/enterprise-r/vscode-wmd-plugin/issues).
 
 ## License
 
