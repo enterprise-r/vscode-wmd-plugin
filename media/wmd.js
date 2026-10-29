@@ -3,7 +3,7 @@
 // is re-applied whenever the DOM changes or a new document is shown.
 (() => {
   const ID = 'wmd-media';
-  const TARGETS = ['full', 'screen', 'document', 'flow', 'receipt'];
+  const TARGETS = ['full', 'screen', 'document', 'flow', 'receipt', 'disabled'];
 
   let source = (() => {
     const meta = document.getElementById('vscode-markdown-preview-data');
@@ -13,13 +13,16 @@
 
   const isWmd = () => /\.w\.md$/i.test(decodeURIComponent(source.split(/[?#]/)[0]));
 
+  let current = 'full';
   const setTarget = (target) => {
+    current = target;
     for (const t of TARGETS) document.body.classList.toggle(`wmd-${t}`, t === target);
     sessionStorage.setItem(ID, target);
     document.querySelectorAll(`#${ID} li`).forEach((li) =>
       li.setAttribute('aria-checked', String(li.dataset.target === target)));
     const root = document.getElementById(ID);
     if (root) root.dataset.tip = `Work card view: ${target}`;
+    schedule();
   };
 
   // The W icon (the extension icon), inlined so the preview needs no extra resources.
@@ -79,7 +82,10 @@
       }
       if (!input.dataset.wmdBound) {
         input.dataset.wmdBound = '1';
-        input.addEventListener('input', () => fill(input, input.nextElementSibling));
+        input.addEventListener('input', () => {
+          const next = input.nextElementSibling;
+          if (next?.classList.contains('wmd-record')) fill(input, next);
+        });
       }
       fill(input, text);
     });
@@ -126,14 +132,16 @@
   };
 
   const apply = () => {
-    const wmd = isWmd();
-    document.body.classList.toggle('wmd', wmd);
-    if (!wmd) { document.getElementById(ID)?.remove(); return; }
+    if (!isWmd()) { document.body.classList.remove('wmd'); document.getElementById(ID)?.remove(); return; }
     if (!document.getElementById(ID)) {
       selector();
       const saved = sessionStorage.getItem(ID);
       setTarget(TARGETS.includes(saved) ? saved : 'full');
     }
+    // Disabled: drop the mark and everything added, leaving the plain Markdown preview
+    const off = current === 'disabled';
+    document.body.classList.toggle('wmd', !off);
+    if (off) { document.querySelectorAll('.wmd-record, .wmd-schema').forEach((n) => n.remove()); return; }
     records();
     schemas();
   };
