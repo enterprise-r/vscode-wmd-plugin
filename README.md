@@ -32,6 +32,7 @@ Markdown preview for them. Other Markdown files are left untouched.
 | `document` | A plain doc: like screen, without nogo, boxes or colors      |
 | `flow`     | Only cards, forms, gates, bubbles and records                |
 | `receipt`  | Only records, one per line. Printing always uses this target |
+| `disabled` | The plain Markdown preview, as if the extension were off      |
 
 ## Usage
 
