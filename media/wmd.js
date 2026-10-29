@@ -18,8 +18,8 @@
     sessionStorage.setItem(ID, target);
     document.querySelectorAll(`#${ID} li`).forEach((li) =>
       li.setAttribute('aria-checked', String(li.dataset.target === target)));
-    const button = document.querySelector(`#${ID} > button`);
-    if (button) button.title = `Media target: ${target}`;
+    const root = document.getElementById(ID);
+    if (root) root.dataset.tip = `Work card view: ${target}`;
   };
 
   // The W icon (the extension icon), inlined so the preview needs no extra resources.
@@ -32,7 +32,7 @@
     root.id = ID;
     const button = document.createElement('button');
     button.innerHTML = LOGO;
-    button.setAttribute('aria-label', 'Media target');
+    button.setAttribute('aria-label', 'Work card view');
     button.setAttribute('aria-haspopup', 'menu');
     const menu = document.createElement('ul');
     menu.setAttribute('role', 'menu');
