@@ -12,8 +12,9 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="License: GPLv3"></a>
 </p>
 
-Workcards are Markdown files (`.w.md`) that specify reliable AI workflows. This extension styles the built-in
-Markdown preview for them. Other Markdown files are left untouched.
+Workcards are Markdown files (`.w.md`) that specify reliable AI workflows.
+This extension styles the built-in Markdown preview for them.
+Other Markdown files are left untouched.
 
 ## Features
 
@@ -21,7 +22,7 @@ Markdown preview for them. Other Markdown files are left untouched.
 - **Forms** with their name, inputs and the record each input fills.
 - **Go/nogo gates** with the `check` bubble before the last branch.
 - **In/out bubbles** and **records** with their `select` path.
-- **Four targets**, switched from the **W** menu in the top-right corner.
+- **Six targets**, switched from the **W** menu in the top-right corner.
 
 ## Targets
 
@@ -31,14 +32,14 @@ Markdown preview for them. Other Markdown files are left untouched.
 | `screen`   | Like full, without nested quotes and front matter            |
 | `document` | A plain doc: like screen, without nogo, boxes or colors      |
 | `flow`     | Only cards, forms, gates, bubbles and records                |
-| `receipt`  | Only records, one per line. Printing always uses this target |
-| `disabled` | The plain Markdown preview, as if the extension were off      |
+| `receipt`  | Only records, one per line. Printing uses this target too    |
+| `disabled` | The plain Markdown preview, as if the extension were off     |
 
 ## Usage
 
 1. Open a `.w.md` file.
 2. Run **Markdown: Open Preview to the Side** (`Ctrl+K V`, or `Cmd+K V` on macOS).
-3. Hover the **W** icon in the top-right corner of the preview and pick a target.
+3. Click the **W** icon in the top-right corner of the preview and pick a target.
 
 The target is kept while the preview stays open.
 
@@ -50,38 +51,44 @@ VS Code 1.90 or newer.
 
 ```sh
 npx @vscode/vsce package
-code --install-extension wmd-0.2.0.vsix
+code --install-extension wmd-*.vsix
 ```
 
 ## Develop
 
-1. Clone this repo and open its folder in VS Code (`code .`). Don't clone it under `~/.vscode/extensions`, VS Code won't load it from there.
-2. Press `F5` (**Run Extension**). It starts the minifier in watch mode and opens a second VS Code window with the extension loaded.
+1. Clone this repo and open its folder in VS Code (`code .`).
+   Don't clone it under `~/.vscode/extensions`, VS Code won't load it from there.
+2. Press `F5` (**Run Extension**). It starts the minifier in watch mode
+   and opens a second VS Code window with the extension loaded.
 3. In that window, open a `.w.md` file and run **Markdown: Open Preview to the Side**.
-4. After editing `media/`, run **Developer: Reload Window** in the second window. Requires Node.js.
+4. After editing `media/`, run **Developer: Reload Window** in the second window.
+   Requires Node.js.
 
 ## Release
 
-1. On a branch, bump `version` in `package.json`, add a `CHANGELOG.md` section for it, and merge the PR.
+1. On a branch, bump `version` in `package.json`, add a `CHANGELOG.md` section for it,
+   and merge the PR.
 2. Tag main and push the tag:
 
    ```sh
    git checkout main && git pull
-   git tag v0.1.1 && git push origin v0.1.1
+   tag=v$(node -p "require('./package.json').version")
+   git tag $tag && git push origin $tag
    ```
 
-3. The **Release** workflow checks that the tag matches `package.json`, builds the `.vsix`, attaches it to a
-   GitHub Release with the changelog section as notes, and publishes to the Marketplace once a reviewer approves
-   the `marketplace` environment.
+3. The **Release** workflow checks that the tag matches `package.json`, builds the `.vsix`,
+   attaches it to a GitHub Release with the changelog section as notes, and publishes to the
+   Marketplace once a reviewer approves the `marketplace` environment.
 
 Every PR and push to main also builds the `.vsix` as a downloadable CI artifact.
 
 One-time setup:
 
 1. Create the publisher `enterprise-r` at <https://marketplace.visualstudio.com/manage>.
-2. On the publisher's **Trusted Publishing** page, create a policy with owner `enterprise-r`, repository
-   `vscode-wmd-plugin`, workflow `release.yml` and environment `marketplace`.
-3. In the repo settings, create the environment `marketplace` with required reviewers. No token or secret is needed.
+2. On the publisher's **Trusted Publishing** page, create a policy with owner `enterprise-r`,
+   repository `vscode-wmd-plugin`, workflow `release.yml` and environment `marketplace`.
+3. In the repo settings, create the environment `marketplace` with required reviewers.
+   No token or secret is needed.
 
 Report bugs on [GitHub Issues](https://github.com/enterprise-r/vscode-wmd-plugin/issues).
 
@@ -91,4 +98,5 @@ Report bugs on [GitHub Issues](https://github.com/enterprise-r/vscode-wmd-plugin
 
 ## About
 
-Made by [Enterprise-R](https://www.enterprise-r.com). Contact: [info@enterprise-r.com](mailto:info@enterprise-r.com).
+Made by [Enterprise-R](https://www.enterprise-r.com).
+Contact: [info@enterprise-r.com](mailto:info@enterprise-r.com).
