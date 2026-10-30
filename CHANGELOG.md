@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3 - 2026-10-30
+
+README describes the six targets and the current install and release steps. Work cards spelled as two words.
+
 ## 0.2.2 - 2026-10-29
 
 New document target, a plain doc. New disabled target, the plain Markdown preview.
