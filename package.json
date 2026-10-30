@@ -1,7 +1,7 @@
 {
   "name": "wmd",
   "displayName": "Workcard",
-  "description": "View .w.md workcards, the Markdown format for reliable AI workflows, as cards, forms, go/nogo gates and records.",
+  "description": "View .w.md work cards, the Markdown format for reliable AI workflows, as cards, forms, go/nogo gates and records.",
   "version": "0.2.2",
   "publisher": "enterprise-r",
   "author": {

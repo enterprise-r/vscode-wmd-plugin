@@ -5,14 +5,14 @@
 <h1 align="center">Workcard</h1>
 
 <p align="center">
-  See your <code>.w.md</code> workcards the way the workflow runs them: cards, forms, gates and records.
+  See your <code>.w.md</code> work cards the way the workflow runs them: cards, forms, gates and records.
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="License: GPLv3"></a>
 </p>
 
-Workcards are Markdown files (`.w.md`) that specify reliable AI workflows.
+Work cards are Markdown files (`.w.md`) that specify reliable AI workflows.
 This extension styles the built-in Markdown preview for them.
 Other Markdown files are left untouched.
 
