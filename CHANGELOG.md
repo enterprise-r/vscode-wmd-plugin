@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- The preview takes its palette and card stylesheet from project-wcard.
+- Go is the left branch of a gate and nogo the right, with rounded elbows so each path reads as one dotted line.
+- The gate check bubble is solid, like the input and output bubbles.
+- The flow view shows the front matter at the top, as the full view does.
+- Forms use a double line.
+- Screen hides an agent's prompt and a nogo that has not been taken.
+- Document hides agent cards and quotes, and draws text fields as underlined lines.
+- The receipt of a card as written shows an example mark and placeholder values.
+
 ## 0.5.0 - 2026-11-10
 
 - The flow view takes on the Enterprise-R colors: lilac agent cards, light silver blue forms, amber statuses and yellow bubbles.

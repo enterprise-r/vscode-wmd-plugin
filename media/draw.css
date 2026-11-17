@@ -1,0 +1,250 @@
+/* Card drawing rules from enterprise-r/project-wcard page/wcard.css,
+   copied by scripts/vendor-wcard.sh. Run-state styles (blur, grayscale,
+   hover-reveal, run marks and glow) are left out. Selectors use the
+   preview's body.wmd scope. The box inset tokens match the card's pad,
+   so the elbows and the notice box share it. */
+body.wmd {
+  --r-text-pad: 1rem;
+  --r-box-gap: 4px;
+  --r-box-pad: calc(var(--r-text-pad) - var(--r-box-gap));
+  --markdown-font-size: 1em;
+}
+@property --markdown-font-size { syntax: "<length>"; inherits: true; initial-value: 16px; }
+
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) :is(card, form, gonogo) {
+  padding-inline: var(--r-box-pad);
+}
+
+/* An agent's prompt and a schema share the notice's box: its ground,
+   its curve, and a frame. The frame is symmetrical, thick on both
+   sides and thin across the top and bottom, and it is one color, the
+   card's own, so a card's inline color carries. They sit in from the
+   card's edge, with the schema's room above and below. The raw schema
+   keeps its breaks and wraps a line that is longer than the box. A
+   fenced schema is the preview's code block and keeps no box of its
+   own. The compact schema on flow takes the same box. The plugin
+   draws a square line around the schema and centers the compact one. */
+
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) card[agent] blockquote,
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) schema:not(:has(> pre)),
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) .wmd-schema {
+  margin: .5em 0;
+  padding: 0.7rem var(--r-box-pad);
+  background: var(--notice-bg, var(--ui-bg-lighter));
+  border: 1px solid var(--wmd-schema-color, var(--wmd-agent-color, var(--ui-magenta)));
+  border-inline-width: 4px;
+  border-radius: 0.6rem;
+}
+
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) card[agent] blockquote,
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) card > schema:not(:has(> pre)),
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) card > .wmd-schema {
+  border-color: inherit;
+}
+
+body.wmd schema:not(:has(> pre)) {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  overflow-x: clip;
+}
+
+/* Code in the plugin's bubbles and schema box is 85% of the prose, the
+   size GitHub gives code, in and out of a paragraph, on all three styles. */
+
+body.wmd :is(in, out, schema:not(:has(> pre)), .wmd-schema, .wmd-check) { font-size: calc(.85 * var(--markdown-font-size)); }
+
+/* The compact schema on flow is indented (elements/render.ts): its lines
+   keep their breaks and leading spaces and read from the start. A line
+   too long for the column wraps, as the raw schema does on full. The
+   box fills the column. */
+
+body.wmd.wmd-flow .wmd-schema { width: auto; white-space: pre-wrap; text-align: start; }
+
+/* An agent's inputs sit side by side on one centered row along its top
+   edge, and wrap to a new row only when the row is full. They are
+   inline boxes on the card's centered line; the card's other children
+   keep the start. Its output sits as close to the lower edge as the
+   inputs sit to the top one: when the output closes the card, the card
+   keeps no room under it for the status, which stands beside the
+   output in the bottom-right corner, and the output stays clear of
+   both corners, in a run too, where a step's status keeps its own
+   room otherwise. A column narrower than 36rem leaves no room beside the
+   corners' name and status, so there each input keeps its own line and
+   the status its own room, as in the plugin. The name keeps a row of its
+   own too: a wide input would otherwise run under it, and the bubble
+   starts below that row. */
+
+body.wmd:is(.wmd-full, .wmd-flow) { container: wmd / inline-size; }
+
+@container wmd (min-width: 36rem) {
+body.wmd:is(.wmd-full, .wmd-flow) card:has(> in) { text-align: center; }
+body.wmd:is(.wmd-full, .wmd-flow) card:has(> in) > :not(in, .wmd-schema) { text-align: start; }
+body.wmd:is(.wmd-full, .wmd-flow) card > in { display: inline-block; vertical-align: top; margin-inline: .25em; }
+body.wmd:is(.wmd-full, .wmd-flow) card:has(> p:last-child > out:last-child) { padding-bottom: .5em; }
+body.wmd:is(.wmd-full, .wmd-flow) card > p:last-child:has(> out:last-child) { margin-bottom: 0; }
+body.wmd:is(.wmd-full, .wmd-flow) card > p:last-child > out:last-child { max-width: calc(100% - 15em); }
+}
+
+@container wmd (max-width: 36rem) {
+body.wmd:is(.wmd-full, .wmd-flow) card:is([agent], [skill]) { padding-top: 1.8em; }
+}
+
+/* A form's line is double, an agent's is dashed, and either is solid
+   while the step is on. A carried form keeps the carried color. Full,
+   screen and flow, where the plugin draws the line. Document and
+   receipt do not. */
+
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) form {
+  border: 3px double var(--wmd-form-color);
+}
+
+/* LCARS elbows: a branch's top and bottom lines bend into its gonogo
+   line along a quarter circle of the same radius as the branch's far
+   corners, 15px at the outer edge of the 3px stroke. The branch's box
+   starts where the curve ends, 12px from the line, so its own top and
+   bottom borders never run under the curve, and the curve stops where it
+   would run along the line (its first 39 degrees), so it never draws
+   over the line's dots. The browser lays the 3px dots every 6px along
+   the whole open outline, from its top left, and closes it with a dot
+   wherever the outline ends: so a branch is a whole number of 6px wide,
+   its leftover going to the far side, and as tall as its content rounded
+   up to 6px plus the step its two far corners leave (1px on the left,
+   5px on the right), and both its borders end on the line side on a
+   whole dot, never a doubled one. Line, curve and border read as one
+   3px dotted stroke. Go is the left branch and nogo the right, so the
+   happy path stays on the prose's line, and each line takes that
+   branch's color. The curve is a mask over the branch's ::after,
+   painted in the line's color, in the room the gonogo leaves above and
+   below a branch. The text keeps its place. Full, screen and flow. */
+
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) gonogo {
+  border-left-color: var(--wmd-go-color, var(--ui-green));
+  border-right-color: var(--wmd-nogo-color, var(--ui-red));
+}
+
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) gonogo > :is(go, nogo) {
+  position: relative; box-sizing: border-box;
+  width: round(down, 100% - var(--wmd-branch-inset, clamp(.25em, 2.7%, 1em)) - (12px - var(--r-box-pad)), 6px);
+}
+
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) gonogo > go {
+  height: calc-size(auto, round(up, size, 6px) + 1px);
+  margin-left: calc(12px - var(--r-box-pad));
+  margin-right: auto;
+  padding-left: max(0px, calc(var(--r-box-pad) - 12px));
+  border-left: 0;
+  border-right: 3px dotted var(--wmd-go-color, var(--ui-green));
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) gonogo > nogo {
+  height: calc-size(auto, round(up, size, 6px) + 5px);
+  margin-right: calc(12px - var(--r-box-pad));
+  margin-left: auto;
+  padding-right: max(0px, calc(var(--r-box-pad) - 12px));
+  border-right: 0;
+  border-left: 3px dotted var(--wmd-nogo-color, var(--ui-red));
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) gonogo > :is(go, nogo)::after {
+  content: ""; position: absolute; top: -15px; bottom: -15px; width: 15px; pointer-events: none;
+}
+
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) gonogo > go::after {
+  left: -15px; background: var(--wmd-go-color);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 15'%3E%3Cpath d='M4.51 8.5A13.5 13.5 0 0 0 15 13.5' fill='none' stroke='currentColor' stroke-width='3' stroke-dasharray='3 3'/%3E%3C/svg%3E") left top / 15px 15px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 15'%3E%3Cpath d='M4.51 6.5A13.5 13.5 0 0 1 15 1.5' fill='none' stroke='currentColor' stroke-width='3' stroke-dasharray='3 3'/%3E%3C/svg%3E") left bottom / 15px 15px no-repeat;
+}
+
+body.wmd:is(.wmd-full, .wmd-screen, .wmd-flow) gonogo > nogo::after {
+  right: -15px; background: var(--wmd-nogo-color);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 15'%3E%3Cpath d='M10.49 8.5A13.5 13.5 0 0 1 0 13.5' fill='none' stroke='currentColor' stroke-width='3' stroke-dasharray='3 3'/%3E%3C/svg%3E") right top / 15px 15px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 15'%3E%3Cpath d='M10.49 6.5A13.5 13.5 0 0 0 0 1.5' fill='none' stroke='currentColor' stroke-width='3' stroke-dasharray='3 3'/%3E%3C/svg%3E") right bottom / 15px 15px no-repeat;
+}
+
+/* The check bubble is solid, like in and out; the plugin draws it dashed. */
+
+body.wmd:is(.wmd-full, .wmd-flow) gonogo[check] > .wmd-check { border-style: solid; }
+
+/* Screen: an agent's > prompt is for the agent; it stays on full. A
+   branch shows once it is taken: before a run, no nogo; in a run, a
+   gonogo not yet read shows nothing. */
+
+body.wmd.wmd-screen card[agent] blockquote { display: none; }
+
+body.wmd.wmd-screen gonogo:not([data-result="nogo"], [data-result="error"]) > nogo { display: none; }
+
+/* Document: a clean, printable document. No agent blocks (their prose,
+   prompts, bubbles and schemas), no quotes, no run marks; the prose,
+   headings, forms as underlined fields, and the results. In a run, a
+   branch shows once it is taken, nogo included. */
+
+body.wmd.wmd-document :is(card[agent], card[skill], blockquote) { display: none; }
+
+body.wmd.wmd-document gonogo:is([data-result="nogo"], [data-result="error"]) > nogo { display: block; margin: 0; padding: 0; border: 0; }
+
+body.wmd.wmd-document form { margin: 0 0 1em; }
+
+body.wmd.wmd-document form p { margin: .35em 0; }
+
+/* A text field is a line to write on; a select or a textarea stays a box. */
+
+body.wmd.wmd-document form input:not([type="checkbox"], [type="radio"]) {
+  width: auto;
+  min-width: 14em;
+  padding: 0 .15em;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 50%, transparent);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+}
+
+body.wmd.wmd-document form input:focus-visible { outline: auto; }
+
+body.wmd.wmd-document form input::placeholder { color: inherit; opacity: .54; }
+
+/* A list is a table: a row per item, a column per field. The control
+   column is hidden here (above). */
+
+body.wmd.wmd-document .wmd-rows :is(input:not([type="checkbox"]), select) { min-width: 0; width: 100%; box-sizing: border-box; }
+
+body.wmd.wmd-document fieldset[repeat] { border: 0; padding: 0; margin: 0 0 1em; }
+
+body.wmd.wmd-document fieldset[repeat] > legend { padding: 0; }
+
+/* Receipt: the card as written gives an example receipt, its values as
+   placeholders, with a faint EXAMPLE watermark. A run's receipt is its
+   records. The article's data-status is there only for a run. A taken
+   nogo keeps its records. */
+
+body.wmd.wmd-receipt gonogo:is([data-result="nogo"], [data-result="error"]) > nogo { display: block; }
+
+/* On the receipt a step's run marks would gray its records. */
+
+body.wmd.wmd-receipt:not([data-status]) { position: relative; }
+
+body.wmd.wmd-receipt:not([data-status])::after {
+  content: "EXAMPLE"; position: absolute; top: 1.2em; right: .5em; pointer-events: none;
+  font: 700 56px/1 system-ui, sans-serif; letter-spacing: .1em; transform: rotate(-10deg);
+  color: color-mix(in srgb, var(--ui-accent) 20%, transparent);
+}
+
+/* The value is the placeholder, gray italic; the key is the text color.
+   On the table the value is the td and the key is the th. A record's
+   key is its ::before, and .wmd-key a field mirror's key. */
+
+body.wmd.wmd-receipt:not([data-status]) :is(record, .wmd-record > span:not(.wmd-key)) { color: GrayText; font-style: italic; }
+
+body.wmd.wmd-receipt:not([data-status]) .frontmatter td { color: GrayText; font-style: italic; }
+
+body.wmd.wmd-receipt:not([data-status]) record::before,
+body.wmd.wmd-receipt:not([data-status]) .wmd-key,
+body.wmd.wmd-receipt:not([data-status]) .frontmatter th { color: CanvasText; font-style: normal; }

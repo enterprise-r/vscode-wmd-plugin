@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Workcard preview styles</title>
+  <!-- CSS hrefs are filled in by scripts/check-preview-styles.mjs -->
+</head>
+<body class="wmd wmd-full vscode-dark">
+  <div class="markdown-body">
+    <div class="frontmatter">
+      <table>
+        <tr><th>name</th><td>date-check</td></tr>
+        <tr><th>version</th><td>0.8.0</td></tr>
+      </table>
+    </div>
+
+    <h1>Date check</h1>
+    <p>Write a date the way you would say it.</p>
+
+    <form name="ask">
+      <h2>Your request</h2>
+      <label for="When">Date, in your words</label>:
+      <input value="next Friday at 3" name="When" id="When" record="Request" required>
+      <div class="wmd-record"><span class="wmd-name">When</span><span class="wmd-key">Request</span>: <span>next Friday at 3</span></div>
+    </form>
+
+    <card agent="parse-date" status="PARSING">
+      <in>.ask.When</in>
+      <p>Reading your date…</p>
+      <blockquote><p>Turn the words into a calendar date.</p></blockquote>
+      <schema>
+{
+  "type": "object",
+  "required": ["Date"]
+}
+      </schema>
+      <p><out>.parse-date.Date</out></p>
+    </card>
+
+    <gonogo check=".parse-date">
+      <go>
+        <card agent="describe-date" status="DESCRIBING" skill="weekday">
+          <in>.parse-date.Date</in>
+          <p>Describe the date.</p>
+        </card>
+      </go>
+      <div class="wmd-check">.parse-date</div>
+      <nogo>
+        <p>The date could not be read.</p>
+        <record name="FAIL">could not parse</record>
+      </nogo>
+    </gonogo>
+
+    <record name="Request">next Friday at 3</record>
+  </div>
+</body>
+</html>

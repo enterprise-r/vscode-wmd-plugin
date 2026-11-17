@@ -20,8 +20,9 @@ Other Markdown files are left untouched.
 
 - **Cards** with their `agent/skill` in the corner. Agent cards are lilac and dashed,
   and so are their names and schemas.
-- **Forms** with their name, inputs and the record each input fills.
-- **Go/nogo gates** with the `check` bubble before the last branch.
+- **Forms** with their name, a double line, inputs and the record each input fills.
+- **Go/nogo gates** with go on the left and nogo on the right, rounded elbows into
+  the gate's line, and a solid `check` bubble before the last branch.
 - **In/out bubbles** and **records** with their `select` path, in yellow.
 - **Colors from the Enterprise-R palette**, mixed deeper on light themes for contrast.
 - **Six targets**, switched from the **W** menu in the top-right corner.
@@ -31,10 +32,10 @@ Other Markdown files are left untouched.
 | Target     | Shows                                                        |
 | ---------- | ------------------------------------------------------------ |
 | `full`     | Everything, with boxes, bubbles and labels                   |
-| `flow`     | Only cards, forms, gates, bubbles and records                |
-| `screen`   | Like full, without nested quotes and front matter            |
-| `document` | A plain doc: like screen, without nogo, boxes or colors      |
-| `receipt`  | Only records, one per line. Printing uses this target too    |
+| `flow`     | Only the front matter, cards, forms, gates, bubbles and records |
+| `screen`   | Like full, without nested quotes, front matter, agent prompts or an unused nogo |
+| `document` | A plain doc: no agent cards, quotes, boxes or colors; fields as underlined lines |
+| `receipt`  | Only records, one per line, with an example mark when the card is as written. Printing uses this target too |
 | `disabled` | The plain Markdown preview, as if the extension were off     |
 
 ## Usage
@@ -66,9 +67,16 @@ code --install-extension wmd-*.vsix
 4. After editing `media/`, run **Developer: Reload Window** in the second window.
    Requires Node.js.
 
-`media/palette.css` is copied unedited from project-branding by
-`scripts/vendor-palette.sh` (`main` by default). `media/vendor/highlight.js` is
-highlight.js core and JSON, bundled by `scripts/vendor-highlight.sh` (latest 11.x by default).
+The palette and the card stylesheet are copied from
+[project-wcard](https://github.com/enterprise-r/project-wcard) by
+`scripts/vendor-wcard.sh` (`main` by default, or a tag, commit or local checkout).
+The script prints the commit it copied, for the commit message. Run-state styles
+stay in wcard and are not copied. `media/colors.css` maps the palette onto the
+VS Code theme kind; `media/ui.css` and `media/vscode.css` are this extension's.
+`media/vendor/highlight.js` is highlight.js core and JSON, bundled by
+`scripts/vendor-highlight.sh` (latest 11.x by default).
+
+`scripts/check-preview-styles.mjs` applies those styles to a sample card in headless Chrome and checks computed styles.
 
 ## Release
 

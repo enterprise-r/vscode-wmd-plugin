@@ -1,0 +1,29 @@
+/* Colors, from the Enterprise-R palette (palette.css), per VS Code theme
+   kind. Dark and high contrast take the palette as is. Light themes mix
+   each color toward the palette's deep lilac (lines) or its background
+   (text), for contrast on white. The notice box behind an agent's prompt
+   and a schema follows the preview's quote colors. */
+
+body.wmd:is(.vscode-dark, .vscode-high-contrast) {
+  --wmd-card-color: var(--ui-red);
+  --wmd-agent-color: var(--ui-magenta);
+  --wmd-form-color: var(--ui-blue-bright);
+  --wmd-go-color: var(--ui-green);
+  --wmd-nogo-color: var(--ui-red);
+  --wmd-bubble-color: var(--ui-yellow);
+  --wmd-status-color: var(--ui-accent);
+  --notice-bg: var(--vscode-textBlockQuote-background, var(--ui-bg-lighter));
+  --notice-line: var(--vscode-textBlockQuote-border, var(--ui-fg-dark));
+}
+
+body.wmd:is(.vscode-light, .vscode-high-contrast-light) {
+  --wmd-card-color: color-mix(in oklab, var(--ui-red) 70%, var(--ui-border));
+  --wmd-agent-color: color-mix(in oklab, var(--ui-magenta) 50%, var(--ui-border));
+  --wmd-form-color: color-mix(in oklab, var(--ui-blue-bright) 65%, var(--ui-border));
+  --wmd-go-color: color-mix(in oklab, var(--ui-green) 70%, var(--ui-border));
+  --wmd-nogo-color: color-mix(in oklab, var(--ui-red) 70%, var(--ui-border));
+  --wmd-bubble-color: color-mix(in oklab, var(--ui-yellow) 60%, var(--ui-border));
+  --wmd-status-color: color-mix(in oklab, var(--ui-accent) 64%, var(--ui-bg));
+  --notice-bg: var(--vscode-textBlockQuote-background, var(--ui-bg-lighter));
+  --notice-line: var(--vscode-textBlockQuote-border, var(--ui-fg-dark));
+}
