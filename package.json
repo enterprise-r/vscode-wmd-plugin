@@ -47,8 +47,10 @@
   "contributes": {
     "markdown.previewStyles": [
       "./dist/palette.css",
+      "./dist/colors.css",
       "./dist/ui.css",
       "./dist/style.css",
+      "./dist/draw.css",
       "./dist/vscode.css"
     ],
     "markdown.previewScripts": [
@@ -56,8 +58,9 @@
     ]
   },
   "scripts": {
-    "build": "npx --yes esbuild@0.25 media/wmd.js media/palette.css media/ui.css media/style.css media/vscode.css --bundle --loader:.svg=text --minify --legal-comments=eof --target=chrome122 --outdir=dist",
+    "build": "npx --yes esbuild@0.25 media/wmd.js media/palette.css media/colors.css media/ui.css media/style.css media/draw.css media/vscode.css --bundle --loader:.svg=text --minify --legal-comments=eof --target=chrome122 --outdir=dist",
     "watch": "npm run build -- --watch=forever",
-    "vscode:prepublish": "npm run build"
+    "vscode:prepublish": "npm run build",
+    "check-styles": "node scripts/check-preview-styles.mjs"
   }
 }
