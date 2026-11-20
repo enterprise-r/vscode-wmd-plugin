@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copies the Enterprise-R palette of project-branding into media/palette.css,
-# unedited. Only the palette: the preview uses none of Dark-®'s fonts,
+# unedited. Only the palette: the preview uses none of Dark-R's fonts,
 # elements or r- classes, and the W menu follows the IDE.
 #
 #   scripts/vendor-palette.sh [branch]     branch defaults to main
