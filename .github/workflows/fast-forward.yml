@@ -15,7 +15,21 @@ jobs:
       pull-requests: write
       issues: write
     steps:
-      - uses: sequoia-pgp/fast-forward@ea7628bedcb0b0b96e94383ada458d812fca4979 # v1.0.0
+      - id: fast-forward
+        uses: sequoia-pgp/fast-forward@ea7628bedcb0b0b96e94383ada458d812fca4979 # v1.0.0
         with:
           merge: true
           comment: on-error
+      # A push fast-forward marks the pull request merged and leaves the
+      # issues named in its body open.
+      - name: Close linked issues
+        if: steps.fast-forward.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.issue.number }}
+        run: |
+          gh pr view "$PR" --repo "$GITHUB_REPOSITORY" --json closingIssuesReferences --jq '
+            .closingIssuesReferences[]
+            | select(.repository.owner.login + "/" + .repository.name == env.GITHUB_REPOSITORY)
+            | .number
+          ' | xargs -r gh issue close --repo "$GITHUB_REPOSITORY" --reason completed
